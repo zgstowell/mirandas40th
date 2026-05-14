@@ -3,11 +3,11 @@ const path = require('path');
 export default async function handler(req, res) {
     try {
         // Resolve the path to your HTML file
-        const filePath = path.join(process.cwd(), 'public', 'index.html');
-        console.log({ filePath })
+        // const filePath = path.join(process.cwd(), 'public', 'index.html');
+        // console.log({ filePath })
 
         // Read the file content
-        const htmlContent = await fs.readFile(filePath, 'utf8');
+        const htmlContent = await fs.readFile('../public/index.html', 'utf8');
         console.log({ htmlContent })
 
         // Send as HTML response
