@@ -3,12 +3,116 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=ß, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miranda's 40th Birthday Party</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div class="container">
+        <header class="header">
+            <h1>🎉 Miranda's 40th Birthday 🎉</h1>
+            <p class="subtitle">Join us for a celebration!</p>
+        </header>
 
+        <section class="party-info">
+            <div class="info-card">
+                <h2>Party Details</h2>
+                <div class="detail">
+                    <span class="icon">📅</span>
+                    <div>
+                        <strong>Date:</strong>
+                        <p>Saturday, June 21, 2026</p>
+                    </div>
+                </div>
+                <div class="detail">
+                    <span class="icon">⏰</span>
+                    <div>
+                        <strong>Time:</strong>
+                        <p>6:00 PM - 11:00 PM</p>
+                    </div>
+                </div>
+                <div class="detail">
+                    <span class="icon">📍</span>
+                    <div>
+                        <strong>Location:</strong>
+                        <p>Garden Pavilion, Central Park<br>New York, NY 10024</p>
+                    </div>
+                </div>
+                <div class="detail">
+                    <span class="icon">👥</span>
+                    <div>
+                        <strong>Dress Code:</strong>
+                        <p>Cocktail Attire</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h2>About the Party</h2>
+                <p>Join us as we celebrate Miranda's milestone 40th birthday! There will be great food, drinks, music,
+                    and entertainment. Come ready to celebrate an amazing person and make wonderful memories together!
+                </p>
+                <p><strong>RSVP by June 14, 2026</strong></p>
+            </div>
+        </section>
+
+        <section class="rsvp-section">
+            <h2>RSVP</h2>
+            <form id="rsvpForm" class="rsvp-form">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="attending">Will you be attending? *</label>
+                    <select id="attending" name="attending" required>
+                        <option value="">-- Select an option --</option>
+                        <option value="yes">Yes, I'll be there!</option>
+                        <option value="no">No, I can't make it</option>
+                        <option value="maybe">Maybe, I'm not sure yet</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="guests">Number of Guests (including yourself) *</label>
+                    <input type="number" id="guests" name="guests" min="1" max="5" value="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dietary">Dietary Restrictions</label>
+                    <textarea id="dietary" name="dietary" rows="3"
+                        placeholder="Please let us know if you have any dietary restrictions..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Comments or Special Requests</label>
+                    <textarea id="comments" name="comments" rows="3"
+                        placeholder="Anything else you'd like us to know?"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit RSVP</button>
+                <p id="formMessage" class="form-message"></p>
+            </form>
+        </section>
+
+        <footer class="footer">
+            <p>Can't wait to celebrate with you! 🎂</p>
+        </footer>
+    </div>
+
+    <script src="index.js"></script>
 </body>
 
 </html>

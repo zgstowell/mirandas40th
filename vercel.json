@@ -1,0 +1,10 @@
+{
+    "buildCommand": "npm run build",
+    "devCommand": "vercel dev",
+    "installCommand": "npm ci",
+    "public": true,
+    "createdAt": 1715708400000,
+    "git": {
+        "deploymentEnabled": true
+    }
+}
