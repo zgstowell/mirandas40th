@@ -13,5 +13,15 @@
             "src": "/(.*)",
             "dest": "/public/$1"
         }
+    ],
+    "rewrites": [
+        {
+            "source": "/",
+            "destination": "/public/index.html"
+        },
+        {
+            "source": "/dashboard",
+            "destination": "/public/pages/dashboard.html"
+        }
     ]
 }
