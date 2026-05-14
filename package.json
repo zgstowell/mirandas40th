@@ -7,7 +7,7 @@
         "dev": "vercel dev",
         "build": "echo 'No build needed for static site'"
     },
-    "devDependencies": {
-        "vercel": "^32.0.0.8.5"
+    "dependencies": {
+        "vercel": "^54.0.0"
     }
 }
