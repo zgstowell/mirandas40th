@@ -16,7 +16,7 @@ document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     const messageEl = document.getElementById('formMessage');
 
     try {
-        const response = await fetch('/api/rsvp', {
+        const response = await fetch('/api/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

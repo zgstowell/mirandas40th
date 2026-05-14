@@ -80,7 +80,7 @@ Once connected to Vercel:
 │   ├── index.js                 # Frontend form handling
 │   └── dashboard.js             # Dashboard functionality
 ├── api/
-│   └── rsvp.js                  # Vercel serverless function for RSVP handling
+│   └── index.js                  # Vercel serverless function for RSVP handling
 ├── data/
 │   └── rsvps.json               # Database file (auto-created on first RSVP)
 ├── vercel.json                  # Vercel deployment configuration
@@ -90,8 +90,8 @@ Once connected to Vercel:
 
 ## API Endpoints
 
-- `GET /api/rsvp` - Retrieve all RSVP entries
-- `POST /api/rsvp` - Submit a new RSVP entry
+- `GET /api/` - Retrieve all RSVP entries
+- `POST /api/` - Submit a new RSVP entry
 
 ## Customization
 
