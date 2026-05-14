@@ -1,9 +1,8 @@
 {
-    "buildCommand": "npm run build",
-    "devCommand": "vercel dev",
-    "installCommand": "npm ci",
-    "public": true,
-    "git": {
-        "deploymentEnabled": true
+    "version": 2,
+    "functions": {
+        "api/**/*.js": {
+            "runtime": "@vercel/node"
+        }
     }
 }

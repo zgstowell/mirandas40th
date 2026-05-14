@@ -1,8 +1,7 @@
 {
     "name": "mirandas-40th",
     "version": "1.0.0",
-    "description": "Birthday party RSVP websi - Serverless with Vercel",
-    "type": "module",
+    "description": "Birthday party RSVP website - Serverless with Vercel",
     "scripts": {
         "dev": "vercel dev",
         "build": "echo 'No build needed for static site'"
