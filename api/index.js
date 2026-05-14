@@ -1,6 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
+// Helper function to send JSON response
+function sendJSON(res, statusCode, data) {
+    res.statusCode = statusCode;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(data));
+}
+
 module.exports = async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -9,21 +16,28 @@ module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
     if (req.method === 'OPTIONS') {
-        res.status(200).end();
+        res.statusCode = 200;
+        res.end();
         return;
     }
 
     if (req.method === 'POST') {
         try {
+            // Parse body if it's a string
+            let body = req.body;
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
+
             // Validate required fields
-            const { name, email, attending } = req.body;
+            const { name, email, attending } = body;
             if (!name || !email || !attending) {
-                return res.status(400).json({ error: 'Missing required fields' });
+                return sendJSON(res, 400, { error: 'Missing required fields' });
             }
 
             // Log the RSVP (in production, save to database)
             console.log('New RSVP:', {
-                ...req.body,
+                ...body,
                 submittedAt: new Date().toISOString()
             });
 
@@ -46,7 +60,7 @@ module.exports = async function handler(req, res) {
 
                 // Add new RSVP with timestamp
                 rsvpData.rsvps.push({
-                    ...req.body,
+                    ...body,
                     timestamp: new Date().toISOString()
                 });
 
@@ -56,13 +70,13 @@ module.exports = async function handler(req, res) {
                 console.warn('Note: Local file storage not available. RSVP logged but not persisted:', fileError.message);
             }
 
-            return res.status(200).json({
+            return sendJSON(res, 200, {
                 success: true,
                 message: 'RSVP received! Thank you for responding.'
             });
         } catch (error) {
             console.error('Error processing RSVP:', error);
-            return res.status(500).json({ error: 'Failed to process RSVP' });
+            return sendJSON(res, 500, { error: 'Failed to process RSVP' });
         }
     }
 
@@ -73,15 +87,15 @@ module.exports = async function handler(req, res) {
             if (fs.existsSync(rsvpPath)) {
                 const content = fs.readFileSync(rsvpPath, 'utf8');
                 const rsvpData = JSON.parse(content);
-                return res.status(200).json(rsvpData);
+                return sendJSON(res, 200, rsvpData);
             }
 
-            return res.status(200).json({ rsvps: [] });
+            return sendJSON(res, 200, { rsvps: [] });
         } catch (error) {
             console.error('Error retrieving RSVPs:', error);
-            return res.status(500).json({ error: 'Failed to retrieve RSVPs' });
+            return sendJSON(res, 500, { error: 'Failed to retrieve RSVPs' });
         }
     }
 
-    res.status(405).json({ error: 'Method not allowed' });
+    sendJSON(res, 405, { error: 'Method not allowed' });
 }
