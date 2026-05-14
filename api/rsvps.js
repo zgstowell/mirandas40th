@@ -22,6 +22,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
+        console.log('Received POST request with body:', req.body);
         try {
             // Parse body if it's a string
             let body = req.body;
@@ -81,7 +82,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
-        console.log({ req });
+        console.log('Received GET request for RSVPs');
         try {
             const rsvpPath = path.join(process.cwd(), 'data', 'rsvps.json');
 
@@ -96,7 +97,7 @@ module.exports = async function handler(req, res) {
             console.log('No RSVPs found, returning empty list');
             return sendJSON(res, 200, { rsvps: [] });
         } catch (error) {
-            console.error('Error retrieving RSVPs:', error);
+            console.log('Error retrieving RSVPs:', error);
             return sendJSON(res, 500, { error: 'Failed to retrieve RSVPs' });
         }
     }
