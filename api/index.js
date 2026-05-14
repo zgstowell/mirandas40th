@@ -81,7 +81,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
-        console.log(req)
+        console.log({ req });
         try {
             const rsvpPath = path.join(process.cwd(), 'data', 'rsvps.json');
 
@@ -89,6 +89,7 @@ module.exports = async function handler(req, res) {
                 console.log('Retrieving RSVPs from file system');
                 const content = fs.readFileSync(rsvpPath, 'utf8');
                 const rsvpData = JSON.parse(content);
+                console.log({ rsvpData });
                 return sendJSON(res, 200, rsvpData);
             }
 
