@@ -8,5 +8,7 @@
     },
     "dependencies": {
         "vercel": "^54.0.0"
-    }
+    },
+    "main": "api/server.js",
+    "author": "Zachary Stowell"
 }
