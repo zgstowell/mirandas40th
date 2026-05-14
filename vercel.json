@@ -1,6 +1,6 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "cleanUrls": true,
-    "version": 1,
+    "version": 2,
     "public": true
 }
