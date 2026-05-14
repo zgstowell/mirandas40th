@@ -22,7 +22,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-        console.log('Received POST request with body:', req.body);
+        console.log('Received POST request: ', req);
         try {
             // Parse body if it's a string
             let body = req.body;
