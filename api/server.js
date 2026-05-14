@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const rsvpsHandler = require('./rsvps');
 module.exports = (req, res) => {
-    console.log('Received request:', req.method, req.url, req.body || 'No body');
+    console.log('Received request:', { req });
     if (req.url === '/api/rsvps') {
         // Delegate to the rsvps handler
         return rsvpsHandler(req, res);
