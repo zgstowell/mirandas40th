@@ -1,12 +1,19 @@
 const fs = require('fs');
 const path = require('path');
-module.exports = (req, res) => {
-    console.log('Received request:', req.method, req.url);
-    // Enable CORS
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
-    res.statusCode = 200;
-    res.end(`Hello from a standalone serverless function! You requested ${req.url} with method ${req.method}`);
-};
+export default async function handler(req, res) {
+    try {
+        // Resolve the path to your HTML file
+        const filePath = path.join(process.cwd(), 'public', 'index.html');
+
+        // Read the file content
+        const htmlContent = await fs.readFile(filePath, 'utf8');
+
+        // Send as HTML response
+        res.setHeader('Content-Type', 'text/html');
+        res.statusCode = 200;
+        res.end(htmlContent);
+    } catch (error) {
+        res.statusCode = 500;
+        res.end('Error reading HTML file');
+    }
+}
