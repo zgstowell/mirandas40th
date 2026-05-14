@@ -1,7 +1,12 @@
 const fs = require('fs');
 const path = require('path');
+const rsvpsHandler = require('./rsvps');
 module.exports = (req, res) => {
     console.log('Received request:', req.method, req.url);
+    if (req.url === '/api/rsvps') {
+        // Delegate to the rsvps handler
+        return rsvpsHandler(req, res);
+    }
     const indexHtmlPath = path.join(process.cwd(), 'public', 'index.html');
     fs.readFile(indexHtmlPath, 'utf8', (err, data) => {
         if (err) {
