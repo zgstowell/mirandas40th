@@ -81,6 +81,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
+        console.log(req)
         try {
             const rsvpPath = path.join(process.cwd(), 'data', 'rsvps.json');
 
