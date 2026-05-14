@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
             // Try to write to local file system (works in Vercel for serverless)
             try {
-                const rsvpDir = path.join(process.cwd(), 'public');
+                const rsvpDir = path.join(process.cwd(), 'data');
                 const rsvpPath = path.join(rsvpDir, 'rsvps.json');
 
                 // Ensure directory exists
@@ -75,7 +75,7 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
         try {
-            const rsvpPath = path.join(process.cwd(), 'public', 'rsvps.json');
+            const rsvpPath = path.join(process.cwd(), 'data', 'rsvps.json');
 
             if (fs.existsSync(rsvpPath)) {
                 const content = fs.readFileSync(rsvpPath, 'utf8');

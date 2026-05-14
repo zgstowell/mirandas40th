@@ -1,3 +1,4 @@
+console.log('RSVP form script loaded');
 // Handle form submission
 document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     e.preventDefault();

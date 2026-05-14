@@ -1,7 +1,7 @@
 let allRsvps = [];
 let filteredRsvps = [];
 let currentFilter = 'all';
-
+console.log('Dashboard script loaded');
 // Initialize dashboard
 document.addEventListener('DOMContentLoaded', () => {
     loadRsvps();
@@ -37,7 +37,7 @@ async function loadRsvps() {
         updateStats();
     } catch (error) {
         console.error('Error loading RSVPs:', error);
-        document.getElementById('guestsList').innerHTML = 
+        document.getElementById('guestsList').innerHTML =
             '<tr><td colspan="8" class="error">Error loading guest responses</td></tr>';
     }
 }
@@ -141,7 +141,7 @@ function getStatusBadge(status) {
 
 function exportAsCSV() {
     const headers = ['Name', 'Email', 'Phone', 'Attending', 'Guests', 'Dietary Restrictions', 'Comments', 'Submitted Date'];
-    
+
     const rows = allRsvps.map(rsvp => [
         rsvp.name,
         rsvp.email,

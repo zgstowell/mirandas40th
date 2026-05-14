@@ -68,13 +68,25 @@ Once connected to Vercel:
 
 ## File Structure
 
-- `index.html` - Main website page
-- `index.js` - Frontend form handling
-- `style.css` - Styling and responsive design
-- `api/rsvp.js` - **Vercel serverless function** for handling RSVP submissions
-- `rsvps.json` - Database file (auto-created on first RSVP)
-- `vercel.json` - Vercel deployment configuration
-- `package.json` - Project dependencies
+```
+/
+├── index.html                    # Main website page
+├── pages/
+│   └── dashboard.html           # Guest list dashboard
+├── css/
+│   ├── style.css                # Main styling and responsive design
+│   └── dashboard.css            # Dashboard-specific styles
+├── js/
+│   ├── index.js                 # Frontend form handling
+│   └── dashboard.js             # Dashboard functionality
+├── api/
+│   └── rsvp.js                  # Vercel serverless function for RSVP handling
+├── data/
+│   └── rsvps.json               # Database file (auto-created on first RSVP)
+├── vercel.json                  # Vercel deployment configuration
+├── package.json                 # Project dependencies
+└── README.md                    # This file
+```
 
 ## API Endpoints
 
