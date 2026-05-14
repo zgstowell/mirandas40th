@@ -29,6 +29,7 @@ module.exports = async function handler(req, res) {
             if (typeof body === 'string') {
                 body = JSON.parse(body);
             }
+            console.log('Parsed request body:', body || 'No body');
 
             // Validate required fields
             const { name, email, attending } = body;
