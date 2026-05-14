@@ -70,22 +70,23 @@ Once connected to Vercel:
 
 ```
 /
-├── index.html                    # Main website page
-├── pages/
-│   └── dashboard.html           # Guest list dashboard
-├── css/
-│   ├── style.css                # Main styling and responsive design
-│   └── dashboard.css            # Dashboard-specific styles
-├── js/
-│   ├── index.js                 # Frontend form handling
-│   └── dashboard.js             # Dashboard functionality
+├── public/                      # Static files served by Vercel
+│   ├── index.html              # Main website page
+│   ├── css/
+│   │   ├── style.css           # Main styling and responsive design
+│   │   └── dashboard.css       # Dashboard-specific styles
+│   ├── js/
+│   │   ├── index.js            # Frontend form handling
+│   │   └── dashboard.js        # Dashboard functionality
+│   └── pages/
+│       └── dashboard.html      # Guest list dashboard
 ├── api/
-│   └── index.js                  # Vercel serverless function for RSVP handling
+│   └── index.js                # Vercel serverless function for RSVP handling
 ├── data/
-│   └── rsvps.json               # Database file (auto-created on first RSVP)
-├── vercel.json                  # Vercel deployment configuration
-├── package.json                 # Project dependencies
-└── README.md                    # This file
+│   └── rsvps.json              # Database file (auto-created on first RSVP)
+├── vercel.json                 # Vercel deployment configuration
+├── package.json                # Project dependencies
+└── README.md                   # This file
 ```
 
 ## API Endpoints
@@ -95,7 +96,7 @@ Once connected to Vercel:
 
 ## Customization
 
-Edit the following in `index.html`:
+Edit the following in `public/index.html`:
 - Party date, time, and location
 - Dress code and any other details
 - Person's name (currently "Miranda's 40th")
