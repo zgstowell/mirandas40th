@@ -6,4 +6,3 @@ node_modules/
 *.log
 .vercel
 dist/
-package-lock.json
