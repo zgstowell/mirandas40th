@@ -37,6 +37,22 @@ body {
 .subtitle {
     font-size: 1.2em;
     opacity: 0.9;
+    margin-bottom: 15px;
+}
+
+.dashboard-link {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.dashboard-link:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .party-info {
