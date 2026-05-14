@@ -8,9 +8,5 @@
     },
     "dependencies": {
         "vercel": "^54.0.0"
-    },
-    "engines": {
-        "node": "20.x"
-    },
-    "main": "api/server.js"
+    }
 }
