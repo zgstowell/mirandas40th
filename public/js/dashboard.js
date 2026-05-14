@@ -30,7 +30,7 @@ function setupEventListeners() {
 
 async function loadRsvps() {
     try {
-        const response = await fetch('/api/');
+        const response = await fetch('/api/rsvps');
         const data = await response.json();
         allRsvps = data.rsvps || [];
         filterAndDisplay();
