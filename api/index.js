@@ -85,11 +85,13 @@ module.exports = async function handler(req, res) {
             const rsvpPath = path.join(process.cwd(), 'data', 'rsvps.json');
 
             if (fs.existsSync(rsvpPath)) {
+                console.log('Retrieving RSVPs from file system');
                 const content = fs.readFileSync(rsvpPath, 'utf8');
                 const rsvpData = JSON.parse(content);
                 return sendJSON(res, 200, rsvpData);
             }
 
+            console.log('No RSVPs found, returning empty list');
             return sendJSON(res, 200, { rsvps: [] });
         } catch (error) {
             console.error('Error retrieving RSVPs:', error);
