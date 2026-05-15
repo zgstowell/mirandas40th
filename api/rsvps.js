@@ -41,7 +41,7 @@ export async function POST(req, res) {
 
         // Try to write to local file system (works in Vercel for serverless)
         try {
-            const rsvpDir = path.join(process.cwd(), 'data');
+            const rsvpDir = path.join(process.cwd(), 'data', 'rsvps.json');
             const rsvpPath = path.join(rsvpDir, 'rsvps.json');
 
             // Ensure directory exists
@@ -68,13 +68,13 @@ export async function POST(req, res) {
             console.warn('Note: Local file storage not available. RSVP logged but not persisted:', fileError.message);
         }
 
-        return sendJSON(res, 200, {
+        return new Response({
             success: true,
             message: 'RSVP received! Thank you for responding.'
-        });
+        }, { status: 200 });
     } catch (error) {
         console.error('Error processing RSVP:', error);
-        return sendJSON(res, 500, { error: 'Failed to process RSVP' });
+        return new Response({ error: 'Failed to process RSVP' }, { status: 500 });
     }
 }
 
@@ -97,14 +97,14 @@ export async function GET(req, res) {
             const content = fs.readFileSync(rsvpPath, 'utf8');
             const rsvpData = JSON.parse(content);
             console.log({ rsvpData });
-            return Response(rsvpData, { status: 200 });
+            return new Response(rsvpData, { status: 200 });
         }
 
         console.log('No RSVPs found, returning empty list');
-        return Response({ rsvps: [] }, { status: 200 });
+        return new Response({ rsvps: [] }, { status: 200 });
     } catch (error) {
         console.log('Error retrieving RSVPs:', error);
-        return Response({ error: 'Failed to retrieve RSVPs' }, { status: 500 });
+        return new Response({ error: 'Failed to retrieve RSVPs' }, { status: 500 });
     }
 
     // sendJSON(res, 405, { error: 'Method not allowed' });
