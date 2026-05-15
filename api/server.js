@@ -12,18 +12,20 @@ export async function GET(req, res) {
         fs.readFile(indexHtmlPath, 'utf8', (err, data) => {
             if (err) {
                 console.error('Error reading index.html:', err);
-                res.statusCode = 500;
-                res.end('Internal Server Error');
-                return;
+                // res.statusCode = 500;
+                // res.end('Internal Server Error');
+                return Response.json({ error: 'Internal Server Error' }, { status: 500 });
             }
             // res.setHeader('Content-Type', 'text/html');
-            res.statusCode = 200;
-            res.end(data);
+            // res.statusCode = 200;
+            // res.end(data);
+            return Response.json({ html: data }, { status: 200 });
         });
     } catch (error) {
         console.error('Error handling request:', error);
-        res.statusCode = 500;
-        res.end('Internal Server Error');
+        // res.statusCode = 500;
+        // res.end('Internal Server Error');
+        return Response.json({ error: 'Internal Server Error' }, { status: 500 });
         return;
     }
 
