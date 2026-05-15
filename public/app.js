@@ -16,7 +16,7 @@ document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     const messageEl = document.getElementById('formMessage');
 
     try {
-        const response = await fetch('/api/rsvps', {
+        const response = await fetch('https://mirandas40th.vercel.app/api/rsvps', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
