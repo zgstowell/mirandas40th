@@ -17,7 +17,7 @@ function enableCORS(res) {
 
 export async function POST(req, res) {
     // Enable CORS
-    enableCORS(res);
+    // enableCORS(res);
     console.log('Received POST request: ', req.body || 'No body');
     try {
         // Parse body if it's a string
@@ -80,14 +80,14 @@ export async function POST(req, res) {
 
 export async function OPTIONS(req, res) {
     // Enable CORS
-    enableCORS(res);
+    // enableCORS(res);
     res.statusCode = 200;
     res.end();
 }
 
 export async function GET(req, res) {
     // Enable CORS
-    enableCORS(res);
+    // enableCORS(res);
     console.log('Received GET request for RSVPs');
     try {
         const rsvpPath = path.join(process.cwd(), 'data', 'rsvps.json');
