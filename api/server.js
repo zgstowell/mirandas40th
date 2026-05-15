@@ -7,18 +7,23 @@ export async function GET(req, res) {
     // res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     // res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
     console.log('Received request:', { req });
-    const indexHtmlPath = path.join(process.cwd(), 'public', 'index.html');
-    fs.readFile(indexHtmlPath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading index.html:', err);
-            res.statusCode = 500;
-            res.end('Internal Server Error');
-            return;
-        }
-        res.setHeader('Content-Type', 'text/html');
-        res.statusCode = 200;
-        res.end(data);
-    });
+    try {
+        const indexHtmlPath = path.join(process.cwd(), 'public', 'index.html');
+        fs.readFile(indexHtmlPath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading index.html:', err);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+            // res.setHeader('Content-Type', 'text/html');
+            // res.statusCode = 200;
+            res.status(200).send(data);
+        });
+    } catch (error) {
+        console.error('Error handling request:', error);
+        res.status(500).send('Internal Server Error');
+        return;
+    }
 
     // // For testing API endpoint
     // res.statusCode = 200;
