@@ -32,7 +32,7 @@ async function loadRsvps() {
     try {
         const response = await fetch('/api/rsvps');
         const data = await response.json();
-        allRsvps ??= data.rsvps;
+        allRsvps = data.rsvps || [];
         filterAndDisplay();
         updateStats();
     } catch (error) {
