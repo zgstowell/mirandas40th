@@ -97,14 +97,14 @@ export async function GET(req, res) {
             const content = fs.readFileSync(rsvpPath, 'utf8');
             const rsvpData = JSON.parse(content);
             console.log({ rsvpData });
-            return sendJSON(res, 200, rsvpData);
+            return Response(rsvpData, { status: 200 });
         }
 
         console.log('No RSVPs found, returning empty list');
-        return sendJSON(res, 200, { rsvps: [] });
+        return Response({ rsvps: [] }, { status: 200 });
     } catch (error) {
         console.log('Error retrieving RSVPs:', error);
-        return sendJSON(res, 500, { error: 'Failed to retrieve RSVPs' });
+        return Response({ error: 'Failed to retrieve RSVPs' }, { status: 500 });
     }
 
     // sendJSON(res, 405, { error: 'Method not allowed' });
