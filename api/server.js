@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { GET, POST, OPTIONS } = require('./rsvps');
 export async function GET(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', 'true');
