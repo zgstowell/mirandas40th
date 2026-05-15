@@ -30,7 +30,7 @@ export async function POST(req, res) {
         // Validate required fields
         const { name, email, attending } = body;
         if (!name || !email || !attending) {
-            return sendJSON(res, 400, { error: 'Missing required fields' });
+            return Response.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
         // Log the RSVP (in production, save to database)
@@ -68,7 +68,7 @@ export async function POST(req, res) {
             console.warn('Note: Local file storage not available. RSVP logged but not persisted:', fileError.message);
         }
 
-        return Response({
+        return Response.json({
             success: true,
             message: 'RSVP received! Thank you for responding.'
         }, { status: 200 });
@@ -97,7 +97,9 @@ export async function GET(req, res) {
             const content = fs.readFileSync(rsvpPath, 'utf8');
             const rsvpData = JSON.parse(content);
             console.log({ rsvpData });
-            return Response.json(rsvpData, { status: 200 });
+            const responseData = Response.json(rsvpData, { status: 200 });
+            console.log('Response data:', responseData);
+            return responseData;
         }
 
         console.log('No RSVPs found, returning empty list');
