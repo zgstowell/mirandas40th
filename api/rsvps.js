@@ -68,13 +68,13 @@ export async function POST(req, res) {
             console.warn('Note: Local file storage not available. RSVP logged but not persisted:', fileError.message);
         }
 
-        return new Response({
+        return Response({
             success: true,
             message: 'RSVP received! Thank you for responding.'
         }, { status: 200 });
     } catch (error) {
         console.error('Error processing RSVP:', error);
-        return new Response.json({ error: 'Failed to process RSVP' }, { status: 500 });
+        return Response.json({ error: 'Failed to process RSVP' }, { status: 500 });
     }
 }
 
@@ -97,14 +97,14 @@ export async function GET(req, res) {
             const content = fs.readFileSync(rsvpPath, 'utf8');
             const rsvpData = JSON.parse(content);
             console.log({ rsvpData });
-            return new Response.json(rsvpData, { status: 200 });
+            return Response.json(rsvpData, { status: 200 });
         }
 
         console.log('No RSVPs found, returning empty list');
-        return new Response.json({ rsvps: [] }, { status: 200 });
+        return Response.json({ rsvps: [] }, { status: 200 });
     } catch (error) {
         console.log('Error retrieving RSVPs:', error);
-        return new Response.json({ error: 'Failed to retrieve RSVPs' }, { status: 500 });
+        return Response.json({ error: 'Failed to retrieve RSVPs' }, { status: 500 });
     }
 
     // sendJSON(res, 405, { error: 'Method not allowed' });
