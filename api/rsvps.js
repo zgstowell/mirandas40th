@@ -25,7 +25,7 @@ module.exports = async function handler(req, res) {
         console.log('Received POST request: ', req.text());
         try {
             // Parse body if it's a string
-            let body = req.text();
+            let body = req.body;
             if (typeof body === 'string') {
                 body = JSON.parse(body);
             }
