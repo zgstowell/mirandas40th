@@ -30,7 +30,7 @@ function setupEventListeners() {
 
 async function loadRsvps() {
     try {
-        const response = await fetch('/api/rsvps');
+        const response = await fetch('https://mirandas40th.vercel.app/api/rsvps');
         const data = await response.json();
         allRsvps = data.rsvps || [];
         filterAndDisplay();
