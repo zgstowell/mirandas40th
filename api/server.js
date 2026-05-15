@@ -12,16 +12,16 @@ export async function GET(req, res) {
         fs.readFile(indexHtmlPath, 'utf8', (err, data) => {
             if (err) {
                 console.error('Error reading index.html:', err);
-                res.status(500).send('Internal Server Error');
+                res.send('Internal Server Error');
                 return;
             }
             // res.setHeader('Content-Type', 'text/html');
             // res.statusCode = 200;
-            res.status(200).send(data);
+            res.send(data);
         });
     } catch (error) {
         console.error('Error handling request:', error);
-        res.status(500).send('Internal Server Error');
+        res.send('Internal Server Error');
         return;
     }
 
