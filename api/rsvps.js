@@ -1,5 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+import { put, get } from "@vercel/blob";
+
+const BLOB_KEY = 'rsvps.json';
 
 // Helper function to send JSON response
 function sendJSON(res, statusCode, data) {
@@ -8,106 +9,125 @@ function sendJSON(res, statusCode, data) {
     res.end(JSON.stringify(data));
 }
 
-function enableCORS(res) {
+// Helper function to parse request body
+function parseBody(req) {
+    return new Promise((resolve, reject) => {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            try {
+                resolve(body ? JSON.parse(body) : {});
+            } catch (err) {
+                reject(err);
+            }
+        });
+        req.on('error', reject);
+    });
+}
+
+async function getAndParseRsvps() {
+    const dbData = await get(BLOB_KEY, { access: 'public' });
+    if (dbData.statusCode === 200 && dbData.blob) {
+        try {
+            const response = await fetch(dbData.blob.url);
+            if (response.ok) {
+                const rsvps = await response.json();
+                console.log('RSVPs retrieved from blob storage:', rsvps);
+                return rsvps;
+            } else {
+                console.error('Failed to fetch blob content, status:', response.status);
+                return { rsvps: [] };
+            }
+        } catch (err) {
+            console.error('Error fetching blob content:', err);
+            return { rsvps: [] };
+        }
+    } else {
+        console.warn('No existing RSVPs found in blob storage or error occurred');
+        return { rsvps: [] };
+    }
+}
+
+export default async function handler(req, res) {
+    // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
-}
 
-export async function POST(req, res) {
-    // Enable CORS
-    // enableCORS(res);
-    console.log('Received POST request: ', req.body || 'No body');
-    try {
-        // Parse body if it's a string
-        let body = req.body;
-        if (typeof body === 'string') {
-            body = JSON.parse(body);
-        }
-        console.log('Parsed request body:', body || 'No body');
+    if (req.method === 'OPTIONS') {
+        res.statusCode = 200;
+        res.end();
+        return;
+    }
 
-        // Validate required fields
-        const { name, email, attending } = body;
-        if (!name || !email || !attending) {
-            return Response.json({ error: 'Missing required fields' }, { status: 400 });
-        }
-
-        // Log the RSVP (in production, save to database)
-        console.log('New RSVP:', {
-            ...body,
-            submittedAt: new Date().toISOString()
-        });
-
-        // Try to write to local file system (works in Vercel for serverless)
+    if (req.method === 'POST') {
+        console.log('Received POST request for RSVP');
         try {
-            const rsvpDir = path.join(process.cwd(), 'data', 'rsvps.json');
-            const rsvpPath = path.join(rsvpDir, 'rsvps.json');
+            // Parse body if it's a string
+            let body = await parseBody(req);
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
+            console.log('Parsed request body:', body || 'No body');
 
-            // Ensure directory exists
-            if (!fs.existsSync(rsvpDir)) {
-                fs.mkdirSync(rsvpDir, { recursive: true });
+            // Validate required fields
+            const { name, email, attending } = body;
+            if (!name || !email || !attending) {
+                return sendJSON(res, 400, { error: 'Missing required fields' });
             }
 
-            // Read existing RSVPs or create new file
-            let rsvpData = { rsvps: [] };
-            if (fs.existsSync(rsvpPath)) {
-                const content = fs.readFileSync(rsvpPath, 'utf8');
-                rsvpData = JSON.parse(content);
-            }
-
-            // Add new RSVP with timestamp
-            rsvpData.rsvps.push({
+            // Log the RSVP (in production, save to database)
+            console.log('New RSVP:', {
                 ...body,
-                timestamp: new Date().toISOString()
+                submittedAt: new Date().toISOString()
             });
 
-            // Write back to file
-            fs.writeFileSync(rsvpPath, JSON.stringify(rsvpData, null, 2));
-        } catch (fileError) {
-            console.warn('Note: Local file storage not available. RSVP logged but not persisted:', fileError.message);
+            // Write RSVP data to Vercel Blob storage.
+            try {
+                const { rsvps } = await getAndParseRsvps();
+
+                if (!!rsvps) {
+                    rsvps.push({
+                        ...body,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+
+                const { url } = await put(BLOB_KEY, JSON.stringify({ rsvps }), {
+                    access: 'public',
+                    addRandomSuffix: false, // Ensures the same pathname is used
+                    contentType: 'application/json',
+                    allowOverwrite: true,
+                });
+                console.log('RSVP data stored in blob storage at:', url);
+            } catch (fileError) {
+                console.warn('Note: DB error', fileError.message);
+            }
+
+            return sendJSON(res, 200, {
+                success: true,
+                message: 'RSVP received! Thank you for responding.'
+            });
+        } catch (error) {
+            console.error('Error processing RSVP:', error);
+            return sendJSON(res, 500, { error: 'Failed to process RSVP' });
         }
-
-        return Response.json({
-            success: true,
-            message: 'RSVP received! Thank you for responding.'
-        }, { status: 200 });
-    } catch (error) {
-        console.error('Error processing RSVP:', error);
-        return Response.json({ error: 'Failed to process RSVP' }, { status: 500 });
-    }
-}
-
-export async function OPTIONS(req, res) {
-    // Enable CORS
-    // enableCORS(res);
-    res.statusCode = 200;
-    res.end();
-}
-
-export async function GET(req, res) {
-    // Enable CORS
-    // enableCORS(res);
-    console.log('Received GET request for RSVPs');
-    try {
-        const rsvpPath = path.join(process.cwd(), 'data', 'rsvps.json');
-
-        if (fs.existsSync(rsvpPath)) {
-            console.log('Retrieving RSVPs from file system');
-            const content = fs.readFileSync(rsvpPath, 'utf8');
-            const rsvpData = JSON.parse(content);
-            console.log({ rsvpData });
-            const responseData = Response.json(rsvpData, { status: 200 });
-            console.log('Response data:', responseData);
-            return responseData;
-        }
-
-        console.log('No RSVPs found, returning empty list');
-        return Response.json({ rsvps: [] }, { status: 200 });
-    } catch (error) {
-        console.log('Error retrieving RSVPs:', error);
-        return Response.json({ error: 'Failed to retrieve RSVPs' }, { status: 500 });
     }
 
-    // sendJSON(res, 405, { error: 'Method not allowed' });
+    if (req.method === 'GET') {
+        console.log('Received GET request for RSVPs');
+        try {
+            const { rsvps } = await getAndParseRsvps();
+            console.log('RSVPs data:', rsvps);
+            return sendJSON(res, 200, rsvps);
+        } catch (error) {
+            console.log('Error retrieving RSVPs:', error);
+            return sendJSON(res, 500, { error: 'Failed to retrieve RSVPs' });
+        }
+    }
+
+    sendJSON(res, 405, { error: 'Method not allowed' });
 }

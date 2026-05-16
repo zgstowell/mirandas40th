@@ -9,10 +9,9 @@ A beautiful, responsive birthday party website with an RSVP form. **Built as a s
   - Guest name and contact info
   - Attendance confirmation
   - Number of guests
-  - Dietary restrictions
   - Comments/special requests
 - 🚀 **Serverless architecture** - deployed with Vercel
-- 💾 Persistent data storage in `rsvps.json`
+- 💾 Persistent storage through Vercel Blob storage
 - ✅ Form validation and success/error messages
 - 📱 Mobile-friendly responsive layout
 - 🔗 One-click deployment from GitHub
@@ -72,18 +71,16 @@ Once connected to Vercel:
 /
 ├── public/                      # Static files served by Vercel
 │   ├── index.html              # Main website page
+│   ├── app.js                  # Frontend form handling
 │   ├── css/
 │   │   ├── style.css           # Main styling and responsive design
 │   │   └── dashboard.css       # Dashboard-specific styles
 │   ├── js/
-│   │   ├── index.js            # Frontend form handling
 │   │   └── dashboard.js        # Dashboard functionality
 │   └── pages/
 │       └── dashboard.html      # Guest list dashboard
 ├── api/
-│   └── index.js                # Vercel serverless function for RSVP handling
-├── data/
-│   └── rsvps.json              # Database file (auto-created on first RSVP)
+│   └── rsvps.js                # Vercel serverless function for RSVP handling
 ├── vercel.json                 # Vercel deployment configuration
 ├── package.json                # Project dependencies
 └── README.md                   # This file
@@ -91,8 +88,8 @@ Once connected to Vercel:
 
 ## API Endpoints
 
-- `GET /api/` - Retrieve all RSVP entries
-- `POST /api/` - Submit a new RSVP entry
+- `GET /api/rsvps` - Retrieve all RSVP entries
+- `POST /api/rsvps` - Submit a new RSVP entry
 
 ## Customization
 
@@ -105,29 +102,13 @@ All party details are in the HTML structure and can be easily customized.
 
 ## Data Storage
 
-All RSVPs are automatically saved to `rsvps.json` in the following format:
-```json
-{
-  "rsvps": [
-    {
-      "name": "John Doe",
-      "email": "john@example.com",
-      "phone": "555-1234",
-      "attending": "yes",
-      "guests": 2,
-      "dietary": "Vegetarian",
-      "comments": "Can't wait!",
-      "timestamp": "2026-05-14T10:30:00.000Z"
-    }
-  ]
-}
-```
+RSVPs are stored through Vercel Blob storage using the `/api/rsvps` endpoint. The app saves and retrieves RSVP entries from serverless storage rather than a local file in production.
 
 ## Troubleshooting
 
 **Vercel deployment not working?**
 - Ensure `vercel.json` is in the root directory
-- Check that `api/rsvp.js` exists and is formatted correctly
+- Check that `api/rsvps.js` exists and is formatted correctly
 - Review deployment logs in Vercel dashboard
 
 **RSVPs not saving?**

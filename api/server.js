@@ -1,25 +1,19 @@
 const fs = require('fs');
 const path = require('path');
-const { GET, POST } = require('./rsvps');
-module.exports = (req, res) => {
+import handler from './rsvps.js';
+export default async (req, res) => {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
     console.log('Received request:', req.method, req.url);
+
     if (req.url === '/api/rsvps') {
         // Delegate to the rsvps handler
-        switch (req.method) {
-            case 'GET':
-                return GET(req, res);
-            case 'POST':
-                return POST(req, res);
-            default:
-                res.statusCode = 405;
-                res.end('Method Not Allowed');
-        }
+        return await handler(req, res);
     }
+
     const indexHtmlPath = path.join(process.cwd(), 'public', 'index.html');
     fs.readFile(indexHtmlPath, 'utf8', (err, data) => {
         if (err) {

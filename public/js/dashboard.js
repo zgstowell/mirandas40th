@@ -32,13 +32,13 @@ async function loadRsvps() {
     try {
         const response = await fetch('https://mirandas40th.vercel.app/api/rsvps');
         const data = await response.json();
-        allRsvps = data.rsvps || [];
+        allRsvps = data || [];
         filterAndDisplay();
         updateStats();
     } catch (error) {
         console.error('Error loading RSVPs:', error);
         document.getElementById('guestsList').innerHTML =
-            '<tr><td colspan="8" class="error">Error loading guest responses</td></tr>';
+            '<tr><td colspan="7" class="error">Error loading guest responses</td></tr>';
     }
 }
 
@@ -66,7 +66,7 @@ function displayGuests() {
     const tbody = document.getElementById('guestsList');
 
     if (filteredRsvps.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" class="no-data">No guest responses found</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="no-data">No guest responses found</td></tr>';
         return;
     }
 
@@ -86,7 +86,6 @@ function displayGuests() {
                 <td class="phone-cell">${escapeHtml(rsvp.phone || '-')}</td>
                 <td class="status-cell">${status}</td>
                 <td class="guests-cell">${rsvp.guests || 1}</td>
-                <td class="dietary-cell">${escapeHtml(rsvp.dietary || '-')}</td>
                 <td class="comments-cell">${escapeHtml(rsvp.comments || '-')}</td>
                 <td class="date-cell">${submittedDate}</td>
             </tr>
@@ -105,29 +104,6 @@ function updateStats() {
     document.getElementById('declineCount').textContent = declining;
     document.getElementById('maybeCount').textContent = maybe;
     document.getElementById('totalGuests').textContent = totalGuests;
-
-    displayDietaryRestrictions();
-}
-
-function displayDietaryRestrictions() {
-    const dietaryList = document.getElementById('dietaryList');
-    const dietaryItems = allRsvps
-        .filter(r => r.dietary && r.dietary.trim())
-        .map(r => ({
-            name: r.name,
-            dietary: r.dietary
-        }));
-
-    if (dietaryItems.length === 0) {
-        dietaryList.innerHTML = '<p class="no-dietary">No dietary restrictions reported</p>';
-        return;
-    }
-
-    dietaryList.innerHTML = dietaryItems.map(item => `
-        <div class="dietary-item">
-            <strong>${escapeHtml(item.name)}:</strong> ${escapeHtml(item.dietary)}
-        </div>
-    `).join('');
 }
 
 function getStatusBadge(status) {
@@ -140,7 +116,7 @@ function getStatusBadge(status) {
 }
 
 function exportAsCSV() {
-    const headers = ['Name', 'Email', 'Phone', 'Attending', 'Guests', 'Dietary Restrictions', 'Comments', 'Submitted Date'];
+    const headers = ['Name', 'Email', 'Phone', 'Attending', 'Guests', 'Comments', 'Submitted Date'];
 
     const rows = allRsvps.map(rsvp => [
         rsvp.name,
@@ -148,7 +124,6 @@ function exportAsCSV() {
         rsvp.phone || '',
         rsvp.attending,
         rsvp.guests || 1,
-        rsvp.dietary || '',
         rsvp.comments || '',
         new Date(rsvp.timestamp).toLocaleString()
     ]);

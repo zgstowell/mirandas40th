@@ -3,17 +3,16 @@ console.log('RSVP form script loaded');
 document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const messageEl = document.getElementById('formMessage');
+
     const formData = {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
         attending: document.getElementById('attending').value,
-        guests: parseInt(document.getElementById('guests').value),
-        dietary: document.getElementById('dietary').value,
+        guests: parseInt(document.getElementById('guests').value, 10),
         comments: document.getElementById('comments').value
     };
-
-    const messageEl = document.getElementById('formMessage');
 
     try {
         const response = await fetch('https://mirandas40th.vercel.app/api/rsvps', {

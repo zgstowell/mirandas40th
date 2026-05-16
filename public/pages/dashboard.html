@@ -14,7 +14,7 @@
         <header class="header">
             <h1>📊 Guest List Dashboard</h1>
             <p class="subtitle">Miranda's 40th Birthday RSVP Responses</p>
-            <a href="../../index.html" class="back-link">← Back to RSVP Form</a>
+            <a href="../index.html" class="back-link">← Back to RSVP Form</a>
         </header>
 
         <section class="dashboard-content">
@@ -61,34 +61,28 @@
                             <th>Phone</th>
                             <th>Status</th>
                             <th>Guests</th>
-                            <th>Dietary</th>
                             <th>Comments</th>
                             <th>Submitted</th>
                         </tr>
                     </thead>
                     <tbody id="guestsList">
                         <tr class="loading">
-                            <td colspan="8">Loading guest responses...</td>
+                            <td colspan="7">Loading guest responses...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="dietary-restrictions">
-                <h3>Dietary Restrictions & Special Requests</h3>
-                <div id="dietaryList" class="dietary-list">
-                    <p class="loading">Loading dietary information...</p>
-                </div>
-            </div>
-
             <div class="actions">
                 <button id="exportBtn" class="export-btn">📥 Export as CSV</button>
             </div>
-        </section>
+            <button id="exportBtn" class="export-btn">📥 Export as CSV</button>
+    </div>
+    </section>
 
-        <footer class="footer">
-            <p>Guest list dashboard for Miranda's 40th Birthday 🎂</p>
-        </footer>
+    <footer class="footer">
+        <p>Guest list dashboard for Miranda's 40th Birthday 🎂</p>
+    </footer>
     </div>
 
     <script src="../js/dashboard.js"></script>
