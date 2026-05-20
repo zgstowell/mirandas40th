@@ -328,16 +328,11 @@
         font-size: 0.8em;
     }
 
-    .name-cell {
+    .name-cell, .name-th {
         min-width: 120px;
     }
 
-    .email-cell {
-        min-width: 150px;
-    }
-
-    .dietary-cell,
-    .comments-cell {
+    .email-cell, .email-th, .phone-cell, .phone-th, .date-cell, .date-th {
         display: none;
     }
 
@@ -370,7 +365,10 @@
     }
 
     .phone-cell,
-    .date-cell {
+    .phone-th,
+    .date-cell,
+    .date-th, .email-cell,
+    .email-th {
         display: none;
     }
 }
